@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - The Vault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Settings</h2>
+
+        <!-- Change User ID Form -->
+        <div class="form-container">
+            <h3>Change User ID</h3>
+            <form id="changeUserIdForm">
+                <input type="text" id="oldUserId" placeholder="Old User ID" required>
+                <input type="text" id="newUserId" placeholder="New User ID" required>
+                <input type="password" id="userPassword" placeholder="Your Password" required>
+                <button type="submit">Change User ID</button>
+            </form>
+        </div>
+
+        <!-- Change Password Form -->
+        <div class="form-container">
+            <h3>Change Password</h3>
+            <form id="changePasswordForm">
+                <input type="password" id="oldPassword" placeholder="Old Password" required>
+                <input type="password" id="newPassword" placeholder="New Password" required>
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
+
+        <!-- Admin Panel: Add New User -->
+        <div class="form-container" id="adminPanel" style="display: none;">
+            <h3>Add New User</h3>
+            <form id="addUserForm">
+                <input type="text" id="adminUserId" placeholder="Admin User ID" required>
+                <input type="password" id="adminPassword" placeholder="Admin Password" required>
+                <input type="text" id="newUserIdForAdmin" placeholder="New User ID" required>
+                <input type="password" id="newUserPassword" placeholder="New User Password" required>
+                <button type="submit">Add User</button>
+            </form>
+
+            <!-- Admin Panel: Reset User Password -->
+            <h3>Reset User Password</h3>
+            <form id="resetUserPasswordForm">
+                <input type="text" id="resetUserId" placeholder="User ID to reset" required>
+                <input type="password" id="newResetPassword" placeholder="New Password" required>
+                <button type="submit">Reset Password</button>
+            </form>
+        </div>
+    </div>
+            <br>
+            <!-- Settings Link -->
+            <a href="index.html" id="settingslink">Go to Home</a>
+
+    <script src="settings.js"></script>
+</body>
+</html>

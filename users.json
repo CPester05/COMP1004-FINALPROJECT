@@ -1,0 +1,14 @@
+{
+  "adminUser": {
+    "password": "adminPass123",
+    "isAdmin": true
+  },
+  "john_doe": {
+    "password": "johnDoe123",
+    "isAdmin": false
+  },
+  "jane_smith": {
+    "password": "janeSmith123",
+    "isAdmin": false
+  }
+}

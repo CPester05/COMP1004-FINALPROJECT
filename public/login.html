@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Manager - Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Password Manager Login</h1>
+    </header>
+
+    <div class="login-container">
+        <label for="user-id">Enter User ID:</label>
+        <input type="text" id="user-id" placeholder="User ID (email)" required />
+        <button id="login-button">Login</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SecureVault</p>
+    </footer>
+
+    <script>
+        document.getElementById("login-button").addEventListener("click", function() {
+            const userId = document.getElementById('user-id').value;
+
+            if (userId) {
+                localStorage.setItem("userId", userId); // Save the userId in local storage
+                window.location.href = "index.html"; // Redirect to the password manager page
+            } else {
+                alert("Please enter a valid User ID.");
+            }
+        });
+    </script>
+</body>
+</html>
