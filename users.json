@@ -1,8 +1,4 @@
 {
-  "adminUser": {
-    "password": "adminPass123",
-    "isAdmin": true
-  },
   "john_doe": {
     "password": "johnDoe123",
     "isAdmin": false
@@ -10,5 +6,21 @@
   "jane_smith": {
     "password": "janeSmith123",
     "isAdmin": false
+  },
+  "testuseracc": {
+    "password": "testuseracc",
+    "isAdmin": false
+  },
+  "admintest": {
+    "password": "dude2005",
+    "isAdmin": true
+  },
+  "test": {
+    "password": "rawr123",
+    "isAdmin": false
+  },
+  "test1": {
+    "password": "rawr",
+    "isAdmin": true
   }
 }

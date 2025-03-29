@@ -10,50 +10,81 @@
     <div class="container">
         <h2>Settings</h2>
 
-        <!-- Change User ID Form -->
-        <div class="form-container">
-            <h3>Change User ID</h3>
-            <form id="changeUserIdForm">
-                <input type="text" id="oldUserId" placeholder="Old User ID" required>
-                <input type="text" id="newUserId" placeholder="New User ID" required>
-                <input type="password" id="userPassword" placeholder="Your Password" required>
-                <button type="submit">Change User ID</button>
-            </form>
+        <!-- Dropdown for Change User ID -->
+        <div class="dropdown">
+            <button class="dropbtn">Change User ID</button>
+            <div class="dropdown-content" id="changeUserIdDropdown">
+                <form id="changeuseridform">
+                    <label for="oldUserId">Old User ID</label>
+                    <input type="text" id="oldUserId" placeholder="Old User ID" required>
+                    <label for="newUserId">New User ID</label>
+                    <input type="text" id="newUserId" placeholder="New User ID" required>
+                    <label for="userPassword">Your Password</label>
+                    <input type="password" id="userPassword" placeholder="Your Password" required>
+                    <button type="submit">Change User ID</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Change Password Form -->
-        <div class="form-container">
-            <h3>Change Password</h3>
-            <form id="changePasswordForm">
-                <input type="password" id="oldPassword" placeholder="Old Password" required>
-                <input type="password" id="newPassword" placeholder="New Password" required>
-                <button type="submit">Change Password</button>
-            </form>
+        <!-- Dropdown for Change Password -->
+        <div class="dropdown">
+            <button class="dropbtn">Change Password</button>
+            <div class="dropdown-content" id="changePasswordDropdown">
+                <form id="change-password-form">
+                    <label for="userId">User ID</label>
+                    <input type="text" id="userId" placeholder="User ID" required>
+                    <label for="oldPassword">Old Password</label>
+                    <input type="password" id="oldPassword" placeholder="Old Password" required>
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="New Password" required>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Admin Panel: Add New User -->
-        <div class="form-container" id="adminPanel" style="display: none;">
-            <h3>Add New User</h3>
-            <form id="addUserForm">
-                <input type="text" id="adminUserId" placeholder="Admin User ID" required>
-                <input type="password" id="adminPassword" placeholder="Admin Password" required>
-                <input type="text" id="newUserIdForAdmin" placeholder="New User ID" required>
-                <input type="password" id="newUserPassword" placeholder="New User Password" required>
-                <button type="submit">Add User</button>
-            </form>
-
-            <!-- Admin Panel: Reset User Password -->
-            <h3>Reset User Password</h3>
-            <form id="resetUserPasswordForm">
-                <input type="text" id="resetUserId" placeholder="User ID to reset" required>
-                <input type="password" id="newResetPassword" placeholder="New Password" required>
-                <button type="submit">Reset Password</button>
-            </form>
+        <!-- Dropdown for Add New User (Admin Panel) -->
+        <div class="dropdown">
+            <button class="dropbtn">Add New User</button>
+            <div class="dropdown-content" id="addUserDropdown">
+                <form id="newuser">
+                    <label for="adminUserId">Admin User ID</label>
+                    <input type="text" id="adminUserId" placeholder="Admin User ID" required>
+                    <label for="adminPS">Admin Password</label>
+                    <input type="password" id="adminPS" placeholder="Admin Password" required>
+                    <label for="newUserIdForAdmin">New User ID</label>
+                    <input type="text" id="newUserIdForAdmin" placeholder="New User ID" required>
+                    <label for="newUserPassword">New User Password</label>
+                    <input type="password" id="newUserPassword" placeholder="New User Password" required>
+                    <label>
+                        <input type="checkbox" id="is-admin"> Is Admin
+                    </label>
+                    <button type="submit">Add User</button>
+                </form>
+            </div>
         </div>
+
+        <!-- Dropdown for Reset User Password (Admin Panel) -->
+        <div class="dropdown">
+            <button class="dropbtn">Reset User Password</button>
+            <div class="dropdown-content" id="resetUserPasswordDropdown">
+                <form id="resetUserPasswordForm">
+                    <label for="adminId">Admin ID</label>
+                    <input type="text" id="adminId" placeholder="Admin ID" required>
+                    <label for="adminPassword">Admin Password</label>
+                    <input type="password" id="adminPassword" name="adminPassword" placeholder="Admin Password" required>
+                    <label for="resetUser">User ID to reset</label>
+                    <input type="text" id="resetUser" placeholder="User ID to reset" required>
+                    <label for="newpassword">New Password</label>
+                    <input type="password" id="newpassword" placeholder="New Password" required>
+                    <button type="submit">Reset Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Back to Home Link -->
+        <br>
+        <a href="index.html" id="settingslink">Go to Home</a>
     </div>
-            <br>
-            <!-- Settings Link -->
-            <a href="index.html" id="settingslink">Go to Home</a>
 
     <script src="settings.js"></script>
 </body>
