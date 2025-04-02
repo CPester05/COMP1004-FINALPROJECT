@@ -1,5 +1,5 @@
-// Handle user login
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+// Login the user
+document.getElementById('loginForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const userId = document.getElementById('userId').value;
@@ -16,7 +16,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     .then(response => {
         if (response.ok) {
             localStorage.setItem('userId', userId); // Store user ID in local storage
-            loadPasswords(userId); // Load the user's passwords
+            loadPasswords(userId, password); // Load the user's passwords
             document.getElementById('loginFormContainer').style.display = 'none';
             document.getElementById('passwordManager').style.display = 'block';
         } else {
@@ -29,10 +29,15 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     });
 });
 
-// Load passwords for the logged-in user
-function loadPasswords(userId) {
-    fetch(`/passwords/${userId}`)
-        .then(response => response.json())
+// Load passwords
+function loadPasswords(userId, password) {
+    fetch(`/passwords/${userId}?masterKey=${password}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             const tableBody = document.querySelector('#passwordTable tbody');
             tableBody.innerHTML = ''; // Clear previous entries
@@ -43,31 +48,35 @@ function loadPasswords(userId) {
                     <td>${item.website}</td>
                     <td>${item.username}</td>
                     <td>
-                        <span class="password">${item.password}</span>
+                        <span class="password" data-password="${item.password}">********</span>
                         <button class="viewPassword">View</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
+            });
 
-                // Toggle password visibility
-                row.querySelector('.viewPassword').addEventListener('click', function() {
-                    const passwordSpan = row.querySelector('.password');
-                    if (passwordSpan.textContent === item.password) {
-                        passwordSpan.textContent = '*****'; // Hide password
+            // Toggle password visibility
+            document.querySelectorAll('.viewPassword').forEach(button => {
+                button.addEventListener('click', function () {
+                    const passwordSpan = this.previousElementSibling;
+                    if (passwordSpan.textContent === '********') {
+                        passwordSpan.textContent = passwordSpan.dataset.password; // Reveal password
+                        this.textContent = 'Hide';
                     } else {
-                        passwordSpan.textContent = item.password; // Show password
+                        passwordSpan.textContent = '********'; // Hide password
+                        this.textContent = 'View';
                     }
                 });
             });
         })
         .catch(error => {
-            console.error("Error loading passwords:", error);
-            alert("Error loading passwords.");
+            console.error("Error fetching passwords:", error);
+            alert("Failed to retrieve passwords. Please check your master key and try again.");
         });
 }
 
-// Handle adding a new password
-document.getElementById('addPasswordForm').addEventListener('submit', function(event) {
+// Add New Password
+document.getElementById('addPasswordForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const userId = localStorage.getItem('userId');
@@ -75,7 +84,7 @@ document.getElementById('addPasswordForm').addEventListener('submit', function(e
     const username = document.getElementById('username').value;
     const newPassword = document.getElementById('newPassword').value;
 
-    fetch(`/passwords/${userId}`, {
+    fetch(`/passwords/${userId}?masterKey=${key}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -98,7 +107,56 @@ document.getElementById('addPasswordForm').addEventListener('submit', function(e
 
 // Logout functionality
 document.getElementById('logoutBtn').addEventListener('click', function() {
-    localStorage.removeItem('userId');
     document.getElementById('loginFormContainer').style.display = 'block';
     document.getElementById('passwordManager').style.display = 'none';
+});
+
+// Password generator
+function generate() {
+    const length = document.getElementById('length').value;
+    const upper = document.getElementById('uppercase').checked;
+    const numbers = document.getElementById('numbers').checked;
+    const symbols = document.getElementById('symbols').checked;
+
+    const password = generatePassword(length, { upper, numbers, symbols });
+    document.getElementById('password').textContent = password;
+}
+
+function generatePassword(length, options) {
+    const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+    const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numberChars = '0123456789';
+    const symbolChars = '!@#$%^&*()_+{}[]<>?,.';
+
+    let allChars = lowerChars;
+    if (options.upper) allChars += upperChars;
+    if (options.numbers) allChars += numberChars;
+    if (options.symbols) allChars += symbolChars;
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * allChars.length);
+        password += allChars[randomIndex];
+    }
+
+    return password;
+}
+
+// Toggle Buttons
+document.getElementById("toggleButton-ADD").addEventListener("click", function () {
+    var form = document.getElementById("addPasswordForm");
+    if (form.style.display === "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+});
+
+document.getElementById("toggleButton-GEN").addEventListener("click", function () {
+    var form = document.getElementById("passwordGenerator");
+    if (form.style.display === "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
 });

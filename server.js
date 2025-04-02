@@ -10,6 +10,7 @@ const port = 3000;
 // Middleware to parse JSON & use cors
 app.use(bodyParser.json());
 app.use(cors());
+const CryptoJS = require("crypto-js");
 
 // Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "public")));
@@ -51,6 +52,33 @@ const readPasswords = () => readJsonFile(passwordsFile);
 // Write passwords to file
 const writePasswords = (passwords) => writeJsonFile(passwordsFile, passwords);
 
+// Encrypt password with user-specific key
+const encryptPassword = (password, masterKey) => {
+    return CryptoJS.AES.encrypt(password, masterKey).toString();
+};
+
+// Decrypt password with user-specific key
+const decryptPassword = (encryptedPassword, masterKey) => {
+    console.log("Decrypting with Master Key:", masterKey);
+    console.log("Encrypted Value:", encryptedPassword);
+
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedPassword, masterKey);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+        if (!decrypted) {
+            console.log("Decryption failed, returning null.");
+            return null;
+        }
+
+        console.log("Successfully decrypted:", decrypted);
+        return decrypted;
+    } catch (error) {
+        console.error("Error in decryption:", error);
+        return null;
+    }
+};
+
 // User login
 app.post("/login", (req, res) => {
     const { userId, password } = req.body;
@@ -69,31 +97,67 @@ app.post("/login", (req, res) => {
 
 // Get passwords for a specific user
 app.get("/passwords/:userId", (req, res) => {
-    const userId = req.params.userId;
-    const passwords = readPasswords();
+    console.log("Route hit: /passwords/" + req.params.userId);
 
-    return passwords[userId]
-        ? res.json(passwords[userId])
-        : res.status(404).send("No passwords found for this user.");
+    const { userId } = req.params;
+    const { masterKey } = req.query;
+
+    if (!masterKey) {
+        console.log("No master key provided");
+        return res.status(400).send("Master key required.");
+    }
+
+    console.log("Received Master Key:", masterKey);
+
+    const passwords = readPasswords();
+    if (!passwords[userId]) {
+        console.log("No passwords found for user:", userId);
+        return res.status(404).send("No passwords found for this user.");
+    }
+
+    console.log("Stored Passwords:", passwords[userId]);
+
+    console.log("Attempting to decrypt passwords...");
+    const decryptedPasswords = passwords[userId].map(entry => {
+        console.log("Processing entry:", entry);
+        const decryptedPass = decryptPassword(entry.password, masterKey);
+        console.log("Decrypted Password:", decryptedPass);
+        return {
+            website: entry.website,
+            username: entry.username,
+            password: decryptedPass,
+        };
+    });
+
+    console.log("Decryption completed:", decryptedPasswords);
+    res.json(decryptedPasswords);
 });
 
 // Add a new password for a specific user
 app.post("/passwords/:userId", (req, res) => {
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const { website, username, password } = req.body;
-    console.log("Received body:", req.body);
 
-    if (!website || !username || !password) return res.status(400).send("Missing required fields.");
+    if (!website || !username || !password)
+        return res.status(400).send("Missing required fields.");
+
+    const users = readUsers(); // Load users.json
+    if (!users[userId]) return res.status(404).send("User not found.");
+
+    const masterKey = users[userId].password; // Use account password as master key
+
+    // Encrypt the stored password
+    const encryptedPassword = CryptoJS.AES.encrypt(password, masterKey).toString();
 
     const passwords = readPasswords();
     if (!passwords[userId]) passwords[userId] = [];
 
-    passwords[userId].push({ website, username, password });
+    passwords[userId].push({ website, username, password: encryptedPassword });
     writePasswords(passwords);
 
-    res.status(201).send("Password added successfully!");
-    console.log('Password added successfully for %s', userId );
+    res.status(201).send("Password stored securely!");
 });
+
 
 // Change User ID
 app.post("/change-user-id", (req, res) => {
