@@ -103,6 +103,7 @@ table {
     table tr:hover {
         background-color: #f2f2f2;
     }
+
 /* Add Password Form */
 #addPasswordForm input {
     width: 100%;
@@ -128,4 +129,76 @@ table {
 
     #addPasswordForm button:hover {
         background-color: #27ae60;
+    }
+
+/* Settings Page */
+.container {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+h4 {
+    text-align: center;
+    gap: 5px;
+    padding: 5px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+.form-container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+#settingslink {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+    #settingslink:hover {
+        text-decoration: underline;
     }
