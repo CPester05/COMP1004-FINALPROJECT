@@ -35,7 +35,7 @@ document.getElementById("change-password-form").addEventListener("submit", funct
             }
             return response.json();
             if (response.ok) { 
-                alert("Updated successfully");)
+                alert("Updated successfully");
             }
         })
 });
