@@ -1,21 +1,22 @@
 document.getElementById("changeuseridform").addEventListener("submit", function (e) {
     e.preventDefault();
+
     const currentUserId = document.getElementById("oldUserId").value;
     const newUserId = document.getElementById("newUserId").value;
-
-
-    fetch("/change-user-id", {
+    const userPassword = document.getElementById("userPassword").value;  
+    fetch("http://localhost:3000/change-user-id", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentUserId, newUserId })
+        body: JSON.stringify({ currentUserId, newUserId, userPassword }) 
     })
-        .then((response) => response.json())
-        .then((data) => {
-            alert(data.message);
-            sessionStorage.setItem("userId", newUserId);
-            window.location.reload(); // Reload the page to reflect the change
-        });
+        .then(async (response) => {
+            if (response != 200) {
+                throw new Error(await response.text()); 
+            }
+            return response.json();
+        })
 });
+
 
 document.getElementById("change-password-form").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -28,8 +29,15 @@ document.getElementById("change-password-form").addEventListener("submit", funct
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, oldPassword, newPassword })
     })
-        .then((response) => response.json())
-        .then((data) => alert(data.message));
+        .then(async (response) => {
+            if (response != 200) {
+                throw new Error(await response.text());
+            }
+            return response.json();
+            if (response.ok) { 
+                alert("Updated successfully");)
+            }
+        })
 });
 
 document.getElementById("newuser").addEventListener("submit", async function (e) {
@@ -56,7 +64,7 @@ document.getElementById("newuser").addEventListener("submit", async function (e)
         }
 
         const data = await response.text(); // Backend returns plain text
-        alert(data); // Should say "New user added successfully."
+        alert(data); 
 
     } catch (error) {
         console.error("Error:", error);
@@ -67,7 +75,7 @@ document.getElementById("resetUserPasswordForm").addEventListener("submit", func
     e.preventDefault();
 
     const adminId = document.getElementById("adminId").value;
-    const adminId = document.getElementById("adminId").value;
+    const adminPassword = document.getElementById("adminPassword").value;  
     console.log("Admin Password:", adminPassword);  // Log to see if the password is empty
     const userId = document.getElementById("resetUser").value;
     const newPassword = document.getElementById("newpassword").value;
