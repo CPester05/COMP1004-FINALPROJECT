@@ -45,6 +45,7 @@ document.getElementById("newuser").addEventListener("submit", async function (e)
 
     const adminId = document.getElementById("adminUserId").value;
     const adminPassword = document.getElementById("adminPassword").value;
+    console.log("Admin Password:", adminPassword);  // Log to see if the password is empty
     const newUserId = document.getElementById("newUserIdForAdmin").value;
     const newUserPassword = document.getElementById("newUserPassword").value;
     const isAdmin = document.getElementById("is-admin").checked;

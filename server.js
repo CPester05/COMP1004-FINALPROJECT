@@ -2,14 +2,13 @@ const express = require("express");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
-const cors = require('cors'); // Import the cors package
+
 
 const app = express();
 const port = 3000;
 
-// Middleware to parse JSON & use cors
+// Middleware to parse JSON 
 app.use(bodyParser.json());
-app.use(cors());
 const CryptoJS = require("crypto-js");
 
 // Serve static files (HTML, CSS, JS)
