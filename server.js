@@ -1,6 +1,5 @@
 const express = require("express");
 const fs = require("fs");
-const bodyParser = require("body-parser");
 const path = require("path");
 
 
@@ -8,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Middleware to parse JSON 
-app.use(bodyParser.json());
+app.use(express.json());
 const CryptoJS = require("crypto-js");
 
 // Serve static files (HTML, CSS, JS)
