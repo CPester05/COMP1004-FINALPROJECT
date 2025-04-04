@@ -141,22 +141,3 @@ function generatePassword(length, options) {
 
     return password;
 }
-
-// Toggle Buttons
-document.getElementById("toggleButton-ADD").addEventListener("click", function () {
-    var form = document.getElementById("addPasswordForm");
-    if (form.style.display === "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
-    }
-});
-
-document.getElementById("toggleButton-GEN").addEventListener("click", function () {
-    var form = document.getElementById("passwordGenerator");
-    if (form.style.display === "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
-    }
-});
